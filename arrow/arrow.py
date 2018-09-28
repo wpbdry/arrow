@@ -544,7 +544,7 @@ class Arrow(object):
 
         for key, value in kwargs.items():
 
-            if key in self._ATTRS_PLURAL or key in ['weeks', 'quarters', 'weekday']:
+            if key in self._ATTRS_PLURAL or key in ['weeks', 'quarters', 'weekday', 'centuries']:
                 relative_kwargs[key] = value
             else:
                 raise AttributeError()
@@ -552,6 +552,7 @@ class Arrow(object):
         # core datetime does not support quarters, translate to months.
         relative_kwargs.setdefault('months', 0)
         relative_kwargs['months'] += relative_kwargs.pop('quarters', 0) * self._MONTHS_PER_QUARTER
+        relative_kwargs['months'] += relative_kwargs.pop('centuries', 0) * 1200
 
         current = self._datetime + relativedelta(**relative_kwargs)
 
